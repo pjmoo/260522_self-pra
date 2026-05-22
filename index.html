@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JS 개념 정리 | 2026-05-22</title>
-  <meta name="description" content="JavaScript 반복문, 함수, 스코프, 클로저, 객체, 배열 개념을 쉽게 이해할 수 있는 학습 페이지" />
+  <title>JS 개념 정리 | 2026-05-22 Self Practice</title>
+  <meta name="description" content="JavaScript 반복문, 함수, 스코프, 클로저, 객체, 배열, 고차함수, DOM, 이벤트, 비동기까지 — 핵심 개념을 코드와 함께 쉽게 정리한 학습 페이지" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -28,19 +28,13 @@
       --gradient-1: linear-gradient(135deg, #58a6ff 0%, #bc8cff 100%);
       --gradient-2: linear-gradient(135deg, #3fb950 0%, #39d353 100%);
       --gradient-3: linear-gradient(135deg, #f0883e 0%, #f778ba 100%);
-      --sidebar-width: 260px;
+      --gradient-4: linear-gradient(135deg, #e3b341 0%, #f0883e 100%);
+      --sidebar-width: 270px;
       --header-height: 60px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -56,135 +50,106 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       height: var(--header-height);
-      background: rgba(13, 17, 23, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(13, 17, 23, 0.90);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       padding: 0 24px;
-      z-index: 100;
+      z-index: 200;
       gap: 12px;
     }
 
-    header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    header .logo { display: flex; align-items: center; gap: 10px; }
     header .logo-icon {
-      width: 32px; height: 32px;
+      width: 34px; height: 34px;
       background: var(--gradient-1);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-      font-weight: 700;
-      color: white;
+      font-size: 15px; font-weight: 700; color: white;
       font-family: 'JetBrains Mono', monospace;
     }
-
     header h1 {
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 16px; font-weight: 700;
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
     header .badge {
       background: rgba(88, 166, 255, 0.1);
       border: 1px solid rgba(88, 166, 255, 0.3);
       color: var(--accent-blue);
       font-size: 11px;
-      padding: 2px 8px;
+      padding: 2px 10px;
       border-radius: 20px;
       margin-left: auto;
     }
+    header .section-count {
+      background: rgba(188,140,255,0.1);
+      border: 1px solid rgba(188,140,255,0.3);
+      color: var(--accent-purple);
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
 
     /* ── LAYOUT ── */
-    .layout {
-      display: flex;
-      padding-top: var(--header-height);
-      min-height: 100vh;
-    }
+    .layout { display: flex; padding-top: var(--header-height); min-height: 100vh; }
 
     /* ── SIDEBAR ── */
     aside {
       width: var(--sidebar-width);
       position: fixed;
       top: var(--header-height);
-      left: 0;
-      bottom: 0;
+      left: 0; bottom: 0;
       background: var(--bg-secondary);
       border-right: 1px solid var(--border);
       overflow-y: auto;
-      padding: 20px 0;
+      padding: 16px 0;
     }
-
     aside::-webkit-scrollbar { width: 4px; }
     aside::-webkit-scrollbar-track { background: transparent; }
     aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
     .sidebar-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
       color: var(--text-muted);
       padding: 0 20px;
-      margin-bottom: 8px;
-      margin-top: 16px;
+      margin-bottom: 4px; margin-top: 14px;
     }
-
     .sidebar-label:first-child { margin-top: 0; }
 
     .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 20px;
-      cursor: pointer;
-      color: var(--text-secondary);
-      font-size: 13px;
-      font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 20px;
+      cursor: pointer; color: var(--text-secondary);
+      font-size: 13px; font-weight: 500;
       text-decoration: none;
       transition: all 0.15s ease;
       border-left: 3px solid transparent;
     }
-
-    .nav-item:hover {
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.04);
-    }
-
+    .nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
     .nav-item.active {
       color: var(--accent-blue);
       background: rgba(88, 166, 255, 0.08);
       border-left-color: var(--accent-blue);
     }
-
-    .nav-item .icon {
-      font-size: 14px;
-      width: 20px;
-      text-align: center;
-    }
-
+    .nav-item .icon { font-size: 13px; width: 18px; text-align: center; }
     .nav-number {
-      margin-left: auto;
-      font-size: 10px;
-      color: var(--text-muted);
+      margin-left: auto; font-size: 10px; color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
       background: rgba(255,255,255,0.05);
-      padding: 1px 6px;
-      border-radius: 10px;
+      padding: 1px 5px; border-radius: 10px;
     }
 
     /* ── MAIN ── */
     main {
       margin-left: var(--sidebar-width);
       flex: 1;
-      padding: 40px 48px;
+      padding: 40px 52px;
       max-width: calc(100% - var(--sidebar-width));
     }
 
@@ -195,470 +160,344 @@
       transform: translateY(20px);
       animation: fadeUp 0.5s ease forwards;
     }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .section:nth-child(1)  { animation-delay: 0.04s; }
+    .section:nth-child(2)  { animation-delay: 0.08s; }
+    .section:nth-child(3)  { animation-delay: 0.12s; }
+    .section:nth-child(4)  { animation-delay: 0.16s; }
+    .section:nth-child(5)  { animation-delay: 0.20s; }
+    .section:nth-child(6)  { animation-delay: 0.24s; }
+    .section:nth-child(7)  { animation-delay: 0.28s; }
+    .section:nth-child(8)  { animation-delay: 0.32s; }
+    .section:nth-child(9)  { animation-delay: 0.36s; }
+    .section:nth-child(10) { animation-delay: 0.40s; }
+    .section:nth-child(11) { animation-delay: 0.44s; }
+    .section:nth-child(12) { animation-delay: 0.48s; }
+    .section:nth-child(13) { animation-delay: 0.52s; }
+    .section:nth-child(14) { animation-delay: 0.56s; }
+    .section:nth-child(15) { animation-delay: 0.60s; }
+    .section:nth-child(16) { animation-delay: 0.64s; }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section:nth-child(1) { animation-delay: 0.05s; }
-    .section:nth-child(2) { animation-delay: 0.1s; }
-    .section:nth-child(3) { animation-delay: 0.15s; }
-    .section:nth-child(4) { animation-delay: 0.2s; }
-    .section:nth-child(5) { animation-delay: 0.25s; }
-    .section:nth-child(6) { animation-delay: 0.3s; }
-    .section:nth-child(7) { animation-delay: 0.35s; }
-    .section:nth-child(8) { animation-delay: 0.4s; }
-    .section:nth-child(9) { animation-delay: 0.45s; }
-    .section:nth-child(10) { animation-delay: 0.5s; }
-    .section:nth-child(11) { animation-delay: 0.55s; }
-
-    .section-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .section-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .section-title-group h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .section-title-group p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .section-divider {
-      height: 1px;
-      background: var(--border);
-      margin-bottom: 24px;
-    }
+    .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .section-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
+    .section-title-group h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .section-title-group p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+    .section-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
 
     /* ── TAG ── */
     .tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 12px;
-      margin-right: 6px;
-      margin-bottom: 4px;
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 12px;
+      margin-right: 6px; margin-bottom: 4px;
       font-family: 'JetBrains Mono', monospace;
     }
-
-    .tag-blue { background: rgba(88,166,255,0.12); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.25); }
-    .tag-green { background: rgba(63,185,80,0.12); color: var(--accent-green); border: 1px solid rgba(63,185,80,0.25); }
+    .tag-blue   { background: rgba(88,166,255,0.12);  color: var(--accent-blue);   border: 1px solid rgba(88,166,255,0.25); }
+    .tag-green  { background: rgba(63,185,80,0.12);   color: var(--accent-green);  border: 1px solid rgba(63,185,80,0.25); }
     .tag-purple { background: rgba(188,140,255,0.12); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.25); }
-    .tag-orange { background: rgba(240,136,62,0.12); color: var(--accent-orange); border: 1px solid rgba(240,136,62,0.25); }
-    .tag-pink { background: rgba(247,120,186,0.12); color: var(--accent-pink); border: 1px solid rgba(247,120,186,0.25); }
-    .tag-yellow { background: rgba(227,179,65,0.12); color: var(--accent-yellow); border: 1px solid rgba(227,179,65,0.25); }
+    .tag-orange { background: rgba(240,136,62,0.12);  color: var(--accent-orange); border: 1px solid rgba(240,136,62,0.25); }
+    .tag-pink   { background: rgba(247,120,186,0.12); color: var(--accent-pink);   border: 1px solid rgba(247,120,186,0.25); }
+    .tag-yellow { background: rgba(227,179,65,0.12);  color: var(--accent-yellow); border: 1px solid rgba(227,179,65,0.25); }
+    .tag-cyan   { background: rgba(57,211,83,0.12);   color: var(--accent-cyan);   border: 1px solid rgba(57,211,83,0.25); }
 
-    /* ── CONCEPT CARDS ── */
+    /* ── CARDS ── */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px; margin-bottom: 24px;
     }
-
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
       transition: all 0.2s ease;
     }
-
     .card:hover {
       border-color: rgba(88,166,255,0.4);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-
-    .card-icon {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .card h3 {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
+    .card-icon { font-size: 24px; margin-bottom: 12px; }
+    .card h3 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .card p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
 
     /* ── CODE BLOCK ── */
-    .code-wrap {
-      margin: 16px 0;
-    }
-
+    .code-wrap { margin: 16px 0; }
     .code-wrap .code-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #1c2128;
-      border: 1px solid var(--border);
-      border-bottom: none;
-      border-radius: 10px 10px 0 0;
+      display: flex; align-items: center; gap: 8px;
+      background: #1c2128; border: 1px solid var(--border);
+      border-bottom: none; border-radius: 10px 10px 0 0;
       padding: 8px 16px;
     }
-
     .code-label .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot-red { background: #ff5f56; }
     .dot-yellow { background: #ffbd2e; }
     .dot-green { background: #27c93f; }
-
     .code-label .filename {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-left: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--text-secondary); margin-left: 8px;
     }
-
     pre {
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: 0 0 10px 10px;
-      padding: 20px;
-      overflow-x: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.8;
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: 0 0 10px 10px; padding: 20px;
+      overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; line-height: 1.85;
     }
-
     pre::-webkit-scrollbar { height: 4px; }
     pre::-webkit-scrollbar-track { background: transparent; }
     pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
     /* Syntax highlight */
-    .kw { color: #ff7b72; } /* keyword */
-    .fn { color: #d2a8ff; } /* function name */
-    .str { color: #a5d6ff; } /* string */
-    .num { color: #79c0ff; } /* number */
-    .cmt { color: #6e7681; font-style: italic; } /* comment */
-    .var { color: #ffa657; } /* variable */
-    .op { color: #ff7b72; } /* operator */
-    .punc { color: #e6edf3; } /* punctuation */
-    .const-kw { color: #ff7b72; } /* const/let/var */
-    .plain { color: #e6edf3; }
+    .kw       { color: #ff7b72; }
+    .fn       { color: #d2a8ff; }
+    .str      { color: #a5d6ff; }
+    .num      { color: #79c0ff; }
+    .cmt      { color: #6e7681; font-style: italic; }
+    .var      { color: #ffa657; }
+    .op       { color: #ff7b72; }
+    .punc     { color: #e6edf3; }
+    .const-kw { color: #ff7b72; }
+    .plain    { color: #e6edf3; }
+    .prop     { color: #79c0ff; }
 
     /* ── CALLOUT ── */
     .callout {
-      display: flex;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      margin: 12px 0;
-      font-size: 13px;
+      display: flex; gap: 12px;
+      padding: 14px 16px; border-radius: 8px;
+      margin: 12px 0; font-size: 13px; line-height: 1.7;
+    }
+    .callout-info   { background: rgba(88,166,255,0.08);  border: 1px solid rgba(88,166,255,0.25);  color: var(--text-secondary); }
+    .callout-warn   { background: rgba(240,136,62,0.08);  border: 1px solid rgba(240,136,62,0.25);  color: var(--text-secondary); }
+    .callout-tip    { background: rgba(63,185,80,0.08);   border: 1px solid rgba(63,185,80,0.25);   color: var(--text-secondary); }
+    .callout-purple { background: rgba(188,140,255,0.08); border: 1px solid rgba(188,140,255,0.25); color: var(--text-secondary); }
+    .callout-icon   { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: rgba(88,166,255,0.1); color: var(--accent-blue);
+      font-weight: 700; text-align: left; padding: 10px 16px;
+      border: 1px solid var(--border); font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    td { padding: 10px 16px; border: 1px solid var(--border); color: var(--text-secondary); line-height: 1.6; }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+    td code {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      background: rgba(255,255,255,0.07); padding: 1px 5px;
+      border-radius: 4px; color: var(--accent-orange);
+    }
+
+    /* ── FLOW ── */
+    .flow {
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap; padding: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; margin: 16px 0;
+    }
+    .flow-step {
+      background: rgba(88,166,255,0.12); border: 1px solid rgba(88,166,255,0.3);
+      color: var(--accent-blue); padding: 6px 14px;
+      border-radius: 6px; font-size: 12px; font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .flow-arrow { color: var(--text-muted); font-size: 14px; }
+
+    /* ── DEMO BOX ── */
+    .demo-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; margin: 16px 0;
+    }
+    .demo-box h4 {
+      font-size: 13px; font-weight: 700; color: var(--accent-purple);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .demo-output {
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      color: var(--accent-green); min-height: 48px; margin-bottom: 12px;
       line-height: 1.7;
     }
-
-    .callout-info {
-      background: rgba(88,166,255,0.08);
-      border: 1px solid rgba(88,166,255,0.25);
-      color: var(--text-secondary);
-    }
-
-    .callout-warn {
-      background: rgba(240,136,62,0.08);
-      border: 1px solid rgba(240,136,62,0.25);
-      color: var(--text-secondary);
-    }
-
-    .callout-tip {
-      background: rgba(63,185,80,0.08);
-      border: 1px solid rgba(63,185,80,0.25);
-      color: var(--text-secondary);
-    }
-
-    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-
-    /* ── COMPARISON TABLE ── */
-    .table-wrap {
-      overflow-x: auto;
-      margin: 16px 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th {
-      background: rgba(88,166,255,0.1);
-      color: var(--accent-blue);
-      font-weight: 700;
-      text-align: left;
-      padding: 10px 16px;
-      border: 1px solid var(--border);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    td {
-      padding: 10px 16px;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    tr:nth-child(even) td {
-      background: rgba(255,255,255,0.02);
-    }
-
-    td code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      background: rgba(255,255,255,0.07);
-      padding: 1px 5px;
-      border-radius: 4px;
-      color: var(--accent-orange);
-    }
-
-    /* ── FLOW DIAGRAM ── */
-    .flow {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin: 16px 0;
-    }
-
-    .flow-step {
-      background: rgba(88,166,255,0.12);
-      border: 1px solid rgba(88,166,255,0.3);
-      color: var(--accent-blue);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .flow-arrow {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* ── INTERACTIVE COUNTER ── */
-    .demo-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 16px 0;
-    }
-
-    .demo-box h4 {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent-purple);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .demo-output {
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: var(--accent-green);
-      min-height: 48px;
-      margin-bottom: 12px;
-    }
-
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 8px; border: none;
+      cursor: pointer; font-size: 13px; font-weight: 600;
       font-family: 'Noto Sans KR', sans-serif;
       transition: all 0.15s ease;
     }
-
-    .btn-primary {
-      background: var(--accent-blue);
-      color: white;
-    }
-    .btn-primary:hover {
-      background: #79baff;
-      transform: translateY(-1px);
-    }
-
+    .btn-primary   { background: var(--accent-blue);   color: white; }
+    .btn-primary:hover { background: #79baff; transform: translateY(-1px); }
     .btn-secondary {
-      background: rgba(255,255,255,0.07);
-      color: var(--text-primary);
+      background: rgba(255,255,255,0.07); color: var(--text-primary);
       border: 1px solid var(--border);
-      margin-left: 8px;
     }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.12);
+    .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+    .btn-green  { background: var(--accent-green);  color: #0d1117; }
+    .btn-green:hover  { background: #5cd470; transform: translateY(-1px); }
+    .btn-orange { background: var(--accent-orange); color: white; }
+    .btn-orange:hover { background: #f59a56; transform: translateY(-1px); }
+    .btn-purple { background: var(--accent-purple); color: white; }
+    .btn-purple:hover { background: #ca9eff; transform: translateY(-1px); }
+    .btn-pink   { background: var(--accent-pink);   color: white; }
+    .btn-pink:hover   { background: #f992c8; transform: translateY(-1px); }
+
+    /* ── INPUT ── */
+    .demo-input {
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px;
+      color: var(--text-primary); font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; width: 100%; margin-bottom: 10px;
+      outline: none; transition: border-color 0.2s;
     }
+    .demo-input:focus { border-color: var(--accent-blue); }
 
     /* ── HERO ── */
     .hero {
-      text-align: center;
-      padding: 48px 0 60px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 60px;
+      text-align: center; padding: 48px 0 60px;
+      border-bottom: 1px solid var(--border); margin-bottom: 60px;
     }
-
-    .hero-emoji { font-size: 48px; margin-bottom: 16px; }
-
+    .hero-emoji { font-size: 52px; margin-bottom: 16px; }
     .hero h2 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-size: 34px; font-weight: 700; margin-bottom: 12px;
       background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    .hero p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      max-width: 500px;
-      margin: 0 auto 24px;
-      line-height: 1.8;
-    }
-
+    .hero p { font-size: 15px; color: var(--text-secondary); max-width: 540px; margin: 0 auto 24px; line-height: 1.8; }
     .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 
     .progress-bar-wrap {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin: 24px 0;
-      text-align: left;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px; margin: 24px 0; text-align: left;
     }
-
-    .progress-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
+    .progress-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .progress-item:last-child { margin-bottom: 0; }
-
-    .progress-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      width: 120px;
-      flex-shrink: 0;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .progress-track {
-      flex: 1;
-      height: 6px;
-      background: var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
+    .progress-label { font-size: 12px; color: var(--text-secondary); width: 130px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+    .progress-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
     .progress-fill {
-      height: 100%;
-      border-radius: 3px;
-      background: var(--gradient-1);
-      animation: progressLoad 1s ease forwards;
-      transform-origin: left;
+      height: 100%; border-radius: 3px; background: var(--gradient-1);
+      animation: progressLoad 1s ease forwards; transform-origin: left;
     }
-
-    @keyframes progressLoad {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
+    @keyframes progressLoad { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
     /* ── SCOPE VISUAL ── */
     .scope-visual {
-      border: 2px dashed rgba(88,166,255,0.3);
-      border-radius: 12px;
-      padding: 16px;
-      position: relative;
-      margin: 8px 0;
+      border: 2px dashed rgba(88,166,255,0.3); border-radius: 12px;
+      padding: 16px; position: relative; margin: 8px 0;
       background: rgba(88,166,255,0.03);
     }
-
     .scope-visual .scope-label {
-      position: absolute;
-      top: -10px;
-      left: 12px;
-      background: var(--bg-primary);
-      font-size: 11px;
+      position: absolute; top: -10px; left: 12px;
+      background: var(--bg-primary); font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
-      color: var(--accent-blue);
-      padding: 0 6px;
+      color: var(--accent-blue); padding: 0 6px;
     }
-
-    .scope-visual.local {
-      border-color: rgba(188,140,255,0.3);
-      background: rgba(188,140,255,0.03);
-    }
-
+    .scope-visual.local { border-color: rgba(188,140,255,0.3); background: rgba(188,140,255,0.03); }
     .scope-visual.local .scope-label { color: var(--accent-purple); }
-
-    .scope-visual.block {
-      border-color: rgba(63,185,80,0.3);
-      background: rgba(63,185,80,0.03);
-    }
-
+    .scope-visual.block { border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.03); }
     .scope-visual.block .scope-label { color: var(--accent-green); }
+
+    /* ── DOM VISUAL ── */
+    .dom-tree {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    }
+    .dom-node {
+      padding: 4px 0;
+      line-height: 1.8;
+    }
+    .dom-tag  { color: var(--accent-blue); }
+    .dom-attr { color: var(--accent-orange); }
+    .dom-text { color: var(--text-muted); font-style: italic; }
+    .dom-indent { display: inline-block; }
+
+    /* ── PIPELINE VISUAL ── */
+    .pipeline {
+      display: flex; flex-direction: column; gap: 4px;
+      margin: 16px 0;
+    }
+    .pipeline-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .pipeline-badge {
+      font-size: 11px; font-weight: 700; padding: 2px 8px;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+    }
+    .pipeline-badge.map    { background: rgba(88,166,255,0.2);  color: var(--accent-blue);   border: 1px solid rgba(88,166,255,0.4); }
+    .pipeline-badge.filter { background: rgba(63,185,80,0.2);   color: var(--accent-green);  border: 1px solid rgba(63,185,80,0.4); }
+    .pipeline-badge.reduce { background: rgba(240,136,62,0.2);  color: var(--accent-orange); border: 1px solid rgba(240,136,62,0.4); }
+    .pipeline-badge.find   { background: rgba(188,140,255,0.2); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.4); }
+    .pipeline-badge.sort   { background: rgba(227,179,65,0.2);  color: var(--accent-yellow); border: 1px solid rgba(227,179,65,0.4); }
+    .pipeline-desc { font-size: 13px; color: var(--text-secondary); }
+    .pipeline-desc strong { color: var(--text-primary); }
+    .pipeline-arrow { color: var(--text-muted); font-size: 18px; text-align: center; }
+
+    /* ── ASYNC TIMELINE ── */
+    .async-timeline {
+      position: relative;
+      padding-left: 28px;
+      margin: 16px 0;
+    }
+    .async-timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple));
+    }
+    .timeline-item {
+      position: relative;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -22px; top: 50%;
+      transform: translateY(-50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      border: 2px solid var(--bg-primary);
+    }
+    .timeline-item.success::before { background: var(--accent-green); }
+    .timeline-item.error::before   { background: #f85149; }
+    .timeline-item.async-op::before { background: var(--accent-purple); }
+    .timeline-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 700;
+      padding: 1px 6px; border-radius: 4px;
+      margin-right: 8px;
+    }
+    .label-sync  { background: rgba(88,166,255,0.2); color: var(--accent-blue); }
+    .label-async { background: rgba(188,140,255,0.2); color: var(--accent-purple); }
+    .label-then  { background: rgba(63,185,80,0.2);  color: var(--accent-green); }
+    .label-catch { background: rgba(248,81,73,0.2);  color: #f85149; }
 
     /* ── FOOTER ── */
     footer {
       margin-left: var(--sidebar-width);
       border-top: 1px solid var(--border);
-      padding: 24px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
+      padding: 24px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--text-muted);
     }
-
     footer span { color: var(--accent-blue); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       aside { display: none; }
       main { margin-left: 0; padding: 24px 20px; max-width: 100%; }
-      footer { margin-left: 0; }
+      footer { margin-left: 0; padding: 16px 20px; }
     }
   </style>
 </head>
@@ -670,6 +509,7 @@
     <div class="logo-icon">JS</div>
     <h1>JavaScript 개념 정리</h1>
   </div>
+  <div class="section-count">15 SECTIONS</div>
   <div class="badge">📅 2026-05-22</div>
 </header>
 
@@ -732,6 +572,24 @@
       <span class="icon">📋</span> 배열
       <span class="nav-number">11</span>
     </a>
+
+    <div class="sidebar-label">고급 기능</div>
+    <a href="#hof" class="nav-item" id="nav-hof">
+      <span class="icon">⚡</span> 배열 고차함수
+      <span class="nav-number">12</span>
+    </a>
+    <a href="#dom" class="nav-item" id="nav-dom">
+      <span class="icon">🌐</span> DOM 조작
+      <span class="nav-number">13</span>
+    </a>
+    <a href="#event" class="nav-item" id="nav-event">
+      <span class="icon">🖱️</span> 이벤트
+      <span class="nav-number">14</span>
+    </a>
+    <a href="#async" class="nav-item" id="nav-async">
+      <span class="icon">⏳</span> 비동기 / Promise
+      <span class="nav-number">15</span>
+    </a>
   </aside>
 
   <!-- MAIN -->
@@ -742,7 +600,7 @@
       <div class="hero">
         <div class="hero-emoji">🚀</div>
         <h2>오늘의 JavaScript 학습</h2>
-        <p>반복문부터 클로저까지 — JavaScript 핵심 개념 11가지를 코드와 함께 쉽게 이해해보자</p>
+        <p>반복문부터 비동기까지 — JavaScript 핵심 개념 15가지를 코드와 인터랙티브 데모로 완전 정복!</p>
         <div class="hero-tags">
           <span class="tag tag-blue">반복문</span>
           <span class="tag tag-green">함수</span>
@@ -750,6 +608,10 @@
           <span class="tag tag-orange">스코프</span>
           <span class="tag tag-pink">구조분해</span>
           <span class="tag tag-yellow">호이스팅</span>
+          <span class="tag tag-cyan">고차함수</span>
+          <span class="tag tag-blue">DOM</span>
+          <span class="tag tag-green">이벤트</span>
+          <span class="tag tag-purple">비동기</span>
         </div>
       </div>
       <div class="progress-bar-wrap">
@@ -773,6 +635,16 @@
           <div class="progress-track"><div class="progress-fill" style="width:100%;animation-delay:0.6s"></div></div>
           <span style="font-size:12px;color:var(--accent-green)">✓</span>
         </div>
+        <div class="progress-item">
+          <span class="progress-label">고차함수 / DOM</span>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;animation-delay:0.8s;background:var(--gradient-3)"></div></div>
+          <span style="font-size:12px;color:var(--accent-orange)">NEW</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-label">이벤트 / 비동기</span>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;animation-delay:1s;background:var(--gradient-4)"></div></div>
+          <span style="font-size:12px;color:var(--accent-orange)">NEW</span>
+        </div>
       </div>
     </section>
 
@@ -791,7 +663,7 @@
         <div class="card">
           <div class="card-icon">🔁</div>
           <h3>while 반복문</h3>
-          <p>조건이 <code style="color:var(--accent-orange)">true</code>인 동안 계속 실행. 반드시 변수를 변화시켜서 언젠가 조건이 <code style="color:var(--accent-orange)">false</code>가 되게 해야 한다.</p>
+          <p>조건이 <code style="color:var(--accent-orange)">true</code>인 동안 계속 실행. 반드시 변수를 변화시켜서 언젠가 조건이 <code style="color:var(--accent-orange)">false</code>가 되게 해야 무한루프를 막을 수 있다.</p>
         </div>
         <div class="card">
           <div class="card-icon">➡️</div>
@@ -801,7 +673,7 @@
         <div class="card">
           <div class="card-icon">⏭️</div>
           <h3>break / continue</h3>
-          <p><code style="color:var(--accent-orange)">break</code>는 반복문 탈출, <code style="color:var(--accent-orange)">continue</code>는 현재 회차 건너뛰기.</p>
+          <p><code style="color:var(--accent-orange)">break</code>는 반복문 전체 탈출, <code style="color:var(--accent-orange)">continue</code>는 현재 회차만 건너뛰고 다음 반복을 계속한다.</p>
         </div>
       </div>
 
@@ -822,7 +694,7 @@
           <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
           <span class="filename">01_for.js</span>
         </div>
-        <pre><span class="cmt">// while - 조건이 만족될 때까지 반복</span>
+        <pre><span class="cmt">// while — 조건이 만족될 때까지 반복</span>
 <span class="const-kw">let</span> <span class="var">w</span> = <span class="num">0</span>;
 <span class="kw">while</span> (<span class="var">w</span> &lt; <span class="num">5</span>) {
   console.<span class="fn">log</span>(<span class="var">w</span>);
@@ -831,18 +703,19 @@
 
 <span class="cmt">// for (초기식 ; 조건식 ; 증감식) {}</span>
 <span class="kw">for</span> (<span class="const-kw">let</span> <span class="var">i</span> = <span class="num">0</span>; <span class="var">i</span> &lt; <span class="num">5</span>; <span class="var">i</span>++) {
-  console.<span class="fn">log</span>(<span class="var">i</span>);
+  console.<span class="fn">log</span>(<span class="var">i</span>);  <span class="cmt">// 0, 1, 2, 3, 4</span>
 }
 
-<span class="cmt">// 배열 순회 - break / continue</span>
+<span class="cmt">// 배열 순회 — break / continue 활용</span>
 <span class="const-kw">const</span> <span class="var">arr</span> = [<span class="str">"아침"</span>, <span class="str">"간식"</span>, <span class="str">"점심"</span>, <span class="str">"간식"</span>, <span class="str">"저녁"</span>];
 <span class="kw">for</span> (<span class="const-kw">let</span> <span class="var">i</span> = <span class="num">0</span>; <span class="var">i</span> &lt; <span class="var">arr</span>.length; <span class="var">i</span>++) {
   <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">i</span>] === <span class="str">"간식"</span>) <span class="kw">continue</span>; <span class="cmt">// 간식은 건너뜀</span>
   console.<span class="fn">log</span>(<span class="var">arr</span>[<span class="var">i</span>]);
-  <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">i</span>] === <span class="str">"점심"</span>) <span class="kw">break</span>;  <span class="cmt">// 점심 이후 중단</span>
+  <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">i</span>] === <span class="str">"점심"</span>) <span class="kw">break</span>;   <span class="cmt">// 점심 이후 중단</span>
 }
+<span class="cmt">// 출력: 아침 → 점심 (간식 skip, 저녁 안 나옴)</span>
 
-<span class="cmt">// 2차원 배열 - 중첩 for (행 × 열)</span>
+<span class="cmt">// 2차원 배열 — 중첩 for (행 × 열)</span>
 <span class="const-kw">const</span> <span class="var">matrix</span> = [
   [<span class="num">1</span>, <span class="str">"윌리엄"</span>, <span class="str">"바나나를 좋아함"</span>],
   [<span class="num">2</span>, <span class="str">"김자바"</span>, <span class="str">"김을 좋아함"</span>],
@@ -915,26 +788,26 @@
 
 <span class="cmt">// for...in → 키를 순회</span>
 <span class="kw">for</span> (<span class="const-kw">const</span> <span class="var">key</span> <span class="kw">in</span> <span class="var">arr</span>) {
-  console.<span class="fn">log</span>(<span class="var">key</span>, <span class="var">arr</span>[<span class="var">key</span>]); <span class="cmt">// 0 연어 / 1 아보카도 ...</span>
+  console.<span class="fn">log</span>(<span class="var">key</span>, <span class="var">arr</span>[<span class="var">key</span>]); <span class="cmt">// 0 연어 / 1 아보카도 / 2 스테이크</span>
 }
 <span class="kw">for</span> (<span class="const-kw">const</span> <span class="var">key</span> <span class="kw">in</span> <span class="var">obj</span>) {
   console.<span class="fn">log</span>(<span class="var">key</span>, <span class="var">obj</span>[<span class="var">key</span>]); <span class="cmt">// name 윌리엄 / job ... / salary ...</span>
 }
 
-<span class="cmt">// for...of → 값을 순회</span>
+<span class="cmt">// for...of → 값을 순회 (배열에서 주로 사용)</span>
 <span class="kw">for</span> (<span class="const-kw">const</span> <span class="var">v</span> <span class="kw">of</span> <span class="var">arr</span>) {
   console.<span class="fn">log</span>(<span class="var">v</span>); <span class="cmt">// 연어 / 아보카도 / 스테이크</span>
 }
 
 <span class="cmt">// 객체는 for...of 바로 못 씀 → Object.values() 활용</span>
 <span class="kw">for</span> (<span class="const-kw">const</span> <span class="var">v</span> <span class="kw">of</span> Object.<span class="fn">values</span>(<span class="var">obj</span>)) {
-  console.<span class="fn">log</span>(<span class="var">v</span>);
+  console.<span class="fn">log</span>(<span class="var">v</span>); <span class="cmt">// 윌리엄 / 반찬가게 사장 / 300000</span>
 }</pre>
       </div>
 
       <div class="callout callout-tip">
         <div class="callout-icon">💡</div>
-        <div>배열에는 보통 <strong>for...of</strong>가 더 안전하다. for...in은 배열에 임의로 추가된 숫자가 아닌 키(예: <code>arr[2.8]</code>)도 순회해서 예상치 못한 결과가 나올 수 있다.</div>
+        <div>배열에는 보통 <strong>for...of</strong>가 더 안전하다. for...in은 배열에 임의로 추가된 숫자가 아닌 키도 순회해서 예상치 못한 결과가 나올 수 있다.</div>
       </div>
     </section>
 
@@ -975,13 +848,13 @@
         <pre><span class="const-kw">let</span> <span class="var">a</span> = <span class="num">0</span>;
 
 <span class="kw">function</span> <span class="fn">myFun</span>() {
-  console.<span class="fn">log</span>(<span class="var">a</span>);   <span class="cmt">// 바깥 변수 a 접근 가능</span>
+  console.<span class="fn">log</span>(<span class="var">a</span>);    <span class="cmt">// 바깥 변수 a 접근 가능</span>
   <span class="var">a</span>++;
   <span class="const-kw">let</span> <span class="var">b</span> = <span class="str">"나는 함수 안에서 선언된 변수"</span>;
-  <span class="kw">return</span> <span class="var">b</span>;         <span class="cmt">// b를 반환하고 함수 종료</span>
+  <span class="kw">return</span> <span class="var">b</span>;          <span class="cmt">// b를 반환하고 함수 종료</span>
 }
 
-<span class="var">myFun</span>();             <span class="cmt">// 실행만</span>
+<span class="fn">myFun</span>();             <span class="cmt">// 실행만</span>
 <span class="const-kw">const</span> <span class="var">c</span> = <span class="fn">myFun</span>(); <span class="cmt">// 반환값을 변수에 저장</span>
 console.<span class="fn">log</span>(<span class="var">c</span>);     <span class="cmt">// "나는 함수 안에서 선언된 변수"</span>
 <span class="cmt">// console.log(b) → ❌ ReferenceError: b is not defined</span>
@@ -991,7 +864,7 @@ console.<span class="fn">log</span>(<span class="var">c</span>);     <span class
   <span class="const-kw">const</span> <span class="var">r</span> = Math.<span class="fn">random</span>();
   <span class="kw">switch</span> (<span class="kw">true</span>) {
     <span class="kw">case</span> <span class="var">r</span> &gt; <span class="num">0.9</span>: <span class="kw">return</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">5</span>];        <span class="cmt">// 배열</span>
-    <span class="kw">case</span> <span class="var">r</span> &gt; <span class="num">0.5</span>: <span class="kw">return</span> { a: <span class="num">10</span> };       <span class="cmt">// 객체</span>
+    <span class="kw">case</span> <span class="var">r</span> &gt; <span class="num">0.5</span>: <span class="kw">return</span> { a: <span class="num">10</span> };        <span class="cmt">// 객체</span>
     <span class="kw">default</span>:      <span class="kw">return</span> <span class="str">"동전던지기 실패"</span>; <span class="cmt">// 문자열</span>
   }
 }</pre>
@@ -1034,7 +907,7 @@ console.<span class="fn">log</span>(<span class="var">c</span>);     <span class
 <span class="fn">f1</span>(<span class="num">1</span>, <span class="num">2</span>);    <span class="cmt">// 2 4 NaN</span>
 <span class="fn">f1</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>); <span class="cmt">// 4번째 인자는 무시</span>
 
-<span class="cmt">// 기본값</span>
+<span class="cmt">// 기본값 (Default Parameter)</span>
 <span class="kw">function</span> <span class="fn">f2</span>(<span class="var">a</span> = <span class="num">120</span>, <span class="var">b</span> = <span class="num">150</span>) { <span class="kw">return</span> <span class="var">a</span> * <span class="var">b</span>; }
 console.<span class="fn">log</span>(<span class="fn">f2</span>());     <span class="cmt">// 18000</span>
 console.<span class="fn">log</span>(<span class="fn">f2</span>(<span class="num">100</span>)); <span class="cmt">// 15000 (a만 덮어씀)</span>
@@ -1088,7 +961,7 @@ console.<span class="fn">log</span>(<span class="fn">f2</span>(<span class="num"
       <div class="code-wrap">
         <div class="code-label">
           <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-          <span class="filename">05_.function2.js</span>
+          <span class="filename">05_function2.js</span>
         </div>
         <pre><span class="cmt">// 익명함수 즉시실행 (IIFE)</span>
 (<span class="kw">function</span> () {
@@ -1097,7 +970,7 @@ console.<span class="fn">log</span>(<span class="fn">f2</span>(<span class="num"
 
 <span class="cmt">// 함수 표현식 — 함수를 값처럼 변수에 저장</span>
 <span class="const-kw">const</span> <span class="var">f</span> = <span class="kw">function</span> (<span class="var">fn</span>) {
-  <span class="fn">fn</span>();                    <span class="cmt">// 매개변수로 받은 함수 실행</span>
+  <span class="fn">fn</span>();                     <span class="cmt">// 매개변수로 받은 함수 실행</span>
   console.<span class="fn">log</span>(<span class="str">"나는 존재한다 2"</span>);
 };
 <span class="fn">f</span>(<span class="kw">function</span> () {
@@ -1105,7 +978,7 @@ console.<span class="fn">log</span>(<span class="fn">f2</span>(<span class="num"
 });
 
 <span class="cmt">// 화살표 함수 — (입력) => 출력</span>
-<span class="const-kw">const</span> <span class="var">af</span> = () =&gt; <span class="num">0</span>;                       <span class="cmt">// 값만 반환</span>
+<span class="const-kw">const</span> <span class="var">af</span>  = () =&gt; <span class="num">0</span>;                        <span class="cmt">// 값만 반환 (return 생략)</span>
 <span class="const-kw">const</span> <span class="var">af2</span> = (<span class="var">a</span>) =&gt; console.<span class="fn">log</span>(`실행: ${<span class="var">a</span>}`); <span class="cmt">// 한 줄 실행</span>
 <span class="const-kw">const</span> <span class="var">af3</span> = (<span class="var">a</span>) =&gt; {             <span class="cmt">// 블록 사용 시 return 명시</span>
   <span class="var">a</span>++;
@@ -1158,7 +1031,7 @@ console.<span class="fn">log</span>(<span class="fn">af3</span>(<span class="num
         <pre><span class="cmt">// 객체 구조 분해</span>
 <span class="const-kw">const</span> <span class="var">obj</span> = { name: <span class="str">"윌리엄"</span>, age: <span class="num">18</span>, job: <span class="str">"반찬가게 직원"</span> };
 <span class="const-kw">const</span> { <span class="var">name</span>, <span class="var">age</span>, <span class="var">job</span> } = <span class="var">obj</span>;  <span class="cmt">// 키 이름으로 꺼내기</span>
-<span class="const-kw">const</span> { name: <span class="var">personName</span> } = <span class="var">obj</span>; <span class="cmt">// 별칭 지정</span>
+<span class="const-kw">const</span> { name: <span class="var">personName</span> } = <span class="var">obj</span>;  <span class="cmt">// 별칭 지정</span>
 <span class="const-kw">const</span> { salary, pet = <span class="str">"고양이"</span>, ...<span class="var">rest</span> } = <span class="var">obj</span>;
 <span class="cmt">// salary: undefined (없는 키), pet: "고양이" (기본값), rest: 나머지</span>
 
@@ -1172,8 +1045,8 @@ console.<span class="fn">log</span>(<span class="fn">af3</span>(<span class="num
 [<span class="var">j</span>, <span class="var">i</span>] = [<span class="var">i</span>, <span class="var">j</span>]; <span class="cmt">// i=100, j=0 (임시변수 없이 스왑!)</span>
 
 <span class="cmt">// 얕은 복사</span>
-<span class="const-kw">const</span> <span class="var">obj2</span> = <span class="var">obj</span>;         <span class="cmt">// 재할당 — 같은 객체 가리킴</span>
-<span class="const-kw">const</span> <span class="var">obj3</span> = { ...<span class="var">obj</span> }; <span class="cmt">// 얕은 복사 — 새 객체 생성</span>
+<span class="const-kw">const</span> <span class="var">obj2</span> = <span class="var">obj</span>;          <span class="cmt">// 재할당 — 같은 객체 가리킴</span>
+<span class="const-kw">const</span> <span class="var">obj3</span> = { ...<span class="var">obj</span> };  <span class="cmt">// 얕은 복사 — 새 객체 생성</span>
 <span class="cmt">// 단, 내부에 중첩 객체가 있으면 그 참조는 공유됨 (깊은복사 ≠ 얕은복사)</span></pre>
       </div>
     </section>
@@ -1218,7 +1091,7 @@ console.<span class="fn">log</span>(<span class="fn">af3</span>(<span class="num
           <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
           <span class="filename">07_hoisting.js</span>
         </div>
-        <pre><span class="cmt">// 함수 선언 전에도 호출 가능!</span>
+        <pre><span class="cmt">// 함수 선언 전에도 호출 가능! (호이스팅)</span>
 console.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="fn">fun</span>); <span class="cmt">// "function"</span>
 console.<span class="fn">log</span>(<span class="fn">fun</span>());       <span class="cmt">// "덮어 씌웠지롱" (나중 선언이 덮음)</span>
 console.<span class="fn">log</span>(<span class="var">bar</span>);        <span class="cmt">// undefined (var는 값 없이 먼저 등록됨)</span>
@@ -1229,12 +1102,12 @@ console.<span class="fn">log</span>(<span class="var">bar</span>);        <span 
 <span class="kw">function</span> <span class="fn">fun</span>() { <span class="kw">return</span> <span class="str">"덮어 씌웠지롱"</span>; } <span class="cmt">// 같은 이름 재선언 가능!</span>
 
 <span class="cmt">// ✅ 해결책: const + 화살표함수 사용</span>
-<span class="cmt">// const fun = () => 0; // 이렇게 하면 재선언도, 호이스팅도 방지</span></pre>
+<span class="cmt">// const fun = () => 0; // 재선언도, 호이스팅도 방지</span></pre>
       </div>
 
       <div class="callout callout-tip">
         <div class="callout-icon">💡</div>
-        <div><strong>실무 팁:</strong> <code>const</code>/<code>let</code>과 화살표함수/함수표현식만 써도 호이스팅 문제를 만날 일이 거의 없다. 호이스팅을 의도적으로 쓰는 경우는 함수 선언문으로 코드 하단에 유틸 함수를 모아둘 때 정도다.</div>
+        <div><strong>실무 팁:</strong> <code>const</code>/<code>let</code>과 화살표함수/함수표현식만 써도 호이스팅 문제를 만날 일이 거의 없다.</div>
       </div>
     </section>
 
@@ -1253,11 +1126,9 @@ console.<span class="fn">log</span>(<span class="var">bar</span>);        <span 
         <div class="scope-visual">
           <span class="scope-label">전역 스코프 (Global)</span>
           <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">어디서든 접근 가능한 변수들 (<code style="color:var(--accent-orange)">var v1</code>, <code style="color:var(--accent-orange)">let v3</code>)</p>
-
           <div class="scope-visual local">
             <span class="scope-label">함수 스코프 (Function)</span>
             <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;"><code style="color:var(--accent-orange)">var</code>는 함수 블록만 격리. 함수 밖으로 못 나감</p>
-
             <div class="scope-visual block">
               <span class="scope-label">블록 스코프 (Block)</span>
               <p style="font-size:13px;color:var(--text-secondary)"><code style="color:var(--accent-orange)">let / const</code>는 <code>{ }</code> 블록 내에만 존재. 반복문, 조건문, 함수 모두 해당</p>
@@ -1314,7 +1185,7 @@ console.<span class="fn">log</span>(<span class="var">v1</span>); <span class="c
         <div class="card">
           <div class="card-icon">📍</div>
           <h3>렉시컬 스코프</h3>
-          <p>함수는 <strong>호출된 위치</strong>가 아니라 <strong>선언된 위치</strong>의 스코프를 기준으로 동작한다. (정적 스코프 = static scope)</p>
+          <p>함수는 <strong>호출된 위치</strong>가 아니라 <strong>선언된 위치</strong>의 스코프를 기준으로 동작한다. (정적 스코프)</p>
         </div>
         <div class="card">
           <div class="card-icon">🧠</div>
@@ -1359,8 +1230,10 @@ console.<span class="fn">log</span>(<span class="fn">counter</span>()); <span cl
       <div class="demo-box">
         <h4>🎮 클로저 카운터 — 직접 실행해보기</h4>
         <div class="demo-output" id="closure-output">카운터: 0</div>
-        <button class="btn btn-primary" id="btn-count" onclick="incrementCounter()">▶ 카운터 증가</button>
-        <button class="btn btn-secondary" id="btn-reset" onclick="resetCounter()">↺ 리셋</button>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-count" onclick="incrementCounter()">▶ 카운터 증가</button>
+          <button class="btn btn-secondary" id="btn-reset" onclick="resetCounter()">↺ 리셋</button>
+        </div>
       </div>
 
       <div class="callout callout-tip">
@@ -1405,17 +1278,17 @@ console.<span class="fn">log</span>(<span class="fn">counter</span>()); <span cl
         <pre><span class="const-kw">const</span> <span class="var">program</span> = {
   name: <span class="str">"부자로 만들어주는 로또 생성기"</span>,
   numbers: [],
-  <span class="fn">pickNumber</span>() {         <span class="cmt">// 메서드 (함수가 값인 프로퍼티)</span>
+  <span class="fn">pickNumber</span>() {          <span class="cmt">// 메서드 (함수가 값인 프로퍼티)</span>
     console.<span class="fn">log</span>(<span class="str">"숫자를 뽑았습니다!"</span>);
   },
 };
 
-<span class="var">program</span>.language = <span class="str">"JS"</span>;         <span class="cmt">// 프로퍼티 추가</span>
-<span class="var">program</span>.numbers = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">5</span>,<span class="num">8</span>];   <span class="cmt">// 프로퍼티 수정</span>
-<span class="kw">delete</span> <span class="var">program</span>.trash;            <span class="cmt">// 프로퍼티 삭제</span>
+<span class="var">program</span>.language = <span class="str">"JS"</span>;          <span class="cmt">// 프로퍼티 추가</span>
+<span class="var">program</span>.numbers = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">5</span>,<span class="num">8</span>];    <span class="cmt">// 프로퍼티 수정</span>
+<span class="kw">delete</span> <span class="var">program</span>.trash;             <span class="cmt">// 프로퍼티 삭제</span>
 
 <span class="cmt">// Object 유틸리티 메서드</span>
-console.<span class="fn">log</span>(Object.<span class="fn">keys</span>(<span class="var">program</span>));    <span class="cmt">// ["name", "numbers", "pickNumber", "language"]</span>
+console.<span class="fn">log</span>(Object.<span class="fn">keys</span>(<span class="var">program</span>));    <span class="cmt">// ["name","numbers","pickNumber","language"]</span>
 console.<span class="fn">log</span>(Object.<span class="fn">values</span>(<span class="var">program</span>));  <span class="cmt">// 각 값들의 배열</span>
 console.<span class="fn">log</span>(Object.<span class="fn">entries</span>(<span class="var">program</span>)); <span class="cmt">// [[key,value], ...] 쌍</span>
 
@@ -1460,25 +1333,422 @@ console.<span class="fn">log</span>(Object.<span class="fn">entries</span>(<span
         <pre><span class="const-kw">const</span> <span class="var">arr</span> = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
 
 <span class="cmt">// 스택 (Stack) — 후입선출 LIFO</span>
-<span class="var">arr</span>.<span class="fn">push</span>(<span class="num">11</span>);             <span class="cmt">// 맨 뒤에 추가 → [1,2,3,4,5,11]</span>
-<span class="const-kw">const</span> <span class="var">p</span> = <span class="var">arr</span>.<span class="fn">pop</span>();      <span class="cmt">// 맨 뒤 꺼내기 → p=11, arr=[1,2,3,4,5]</span>
+<span class="var">arr</span>.<span class="fn">push</span>(<span class="num">11</span>);              <span class="cmt">// 맨 뒤에 추가 → [1,2,3,4,5,11]</span>
+<span class="const-kw">const</span> <span class="var">p</span> = <span class="var">arr</span>.<span class="fn">pop</span>();       <span class="cmt">// 맨 뒤 꺼내기 → p=11, arr=[1,2,3,4,5]</span>
 
 <span class="cmt">// 큐 (Queue) — 선입선출 FIFO</span>
-<span class="var">arr</span>.<span class="fn">unshift</span>(<span class="str">"a"</span>);          <span class="cmt">// 맨 앞에 추가 → ["a",1,2,3,4,5]</span>
-<span class="const-kw">const</span> <span class="var">s</span> = <span class="var">arr</span>.<span class="fn">shift</span>();     <span class="cmt">// 맨 앞 꺼내기 → s="a", arr=[1,2,3,4,5]</span>
+<span class="var">arr</span>.<span class="fn">unshift</span>(<span class="str">"a"</span>);           <span class="cmt">// 맨 앞에 추가 → ["a",1,2,3,4,5]</span>
+<span class="const-kw">const</span> <span class="var">s</span> = <span class="var">arr</span>.<span class="fn">shift</span>();      <span class="cmt">// 맨 앞 꺼내기 → s="a", arr=[1,2,3,4,5]</span>
 
 <span class="cmt">// splice(시작인덱스, 개수) — 중간 잘라내기</span>
 console.<span class="fn">log</span>(<span class="var">arr</span>.<span class="fn">splice</span>(<span class="num">1</span>, <span class="num">2</span>)); <span class="cmt">// [2, 3] 반환, arr=[1,4,5]</span>
 
 <span class="cmt">// 배열의 인덱스는 숫자 키</span>
-console.<span class="fn">log</span>(Object.<span class="fn">keys</span>(<span class="var">arr</span>)); <span class="cmt">// ["0", "1", "2", ...]</span>
-
-<span class="cmt">// 정렬은 나중에 고차함수(map/filter/reduce)와 함께!</span></pre>
+console.<span class="fn">log</span>(Object.<span class="fn">keys</span>(<span class="var">arr</span>)); <span class="cmt">// ["0", "1", "2", ...]</span></pre>
       </div>
 
       <div class="callout callout-info">
         <div class="callout-icon">ℹ️</div>
-        <div>JS 배열에서 <code>push</code>→<code>pop</code>은 스택(LIFO), <code>unshift</code>→<code>pop</code> 또는 <code>push</code>→<code>shift</code>는 큐(FIFO). 배열 메서드를 조합하면 대부분의 자료구조를 구현할 수 있다.</div>
+        <div>JS 배열에서 <code>push</code>→<code>pop</code>은 스택(LIFO), <code>push</code>→<code>shift</code>는 큐(FIFO). 배열 메서드를 조합하면 대부분의 자료구조를 구현할 수 있다.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ NEW SECTIONS ═══════════════════════════ -->
+
+    <!-- 12 고차함수 -->
+    <section id="hof" class="section">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div class="section-title-group">
+          <h2>⚡ 배열 고차함수 (Higher-Order Functions)</h2>
+          <p>함수를 인자로 받는 배열 메서드들. <code>map</code> / <code>filter</code> / <code>reduce</code> / <code>find</code> / <code>sort</code> — 반복문 없이 데이터를 가공하는 현대적인 방식.</p>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <span class="pipeline-badge map">map</span>
+          <div class="pipeline-desc"><strong>변환</strong> — 각 요소에 함수를 적용해 <strong>새 배열</strong>을 반환. 원본 불변.</div>
+        </div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">
+          <span class="pipeline-badge filter">filter</span>
+          <div class="pipeline-desc"><strong>걸러내기</strong> — 조건이 <code>true</code>인 요소만 모아 <strong>새 배열</strong>을 반환.</div>
+        </div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">
+          <span class="pipeline-badge reduce">reduce</span>
+          <div class="pipeline-desc"><strong>누산</strong> — 배열을 순회하면서 값을 <strong>하나로 합산</strong>. 합계, 최댓값, 객체 생성 등 만능.</div>
+        </div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">
+          <span class="pipeline-badge find">find / findIndex</span>
+          <div class="pipeline-desc"><strong>탐색</strong> — 조건에 맞는 <strong>첫 번째 요소(또는 인덱스)</strong>를 반환. 없으면 undefined / -1.</div>
+        </div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">
+          <span class="pipeline-badge sort">sort / some / every</span>
+          <div class="pipeline-desc"><strong>정렬 / 판단</strong> — <code>sort</code>는 원본 배열 정렬, <code>some</code>은 하나라도 true, <code>every</code>는 모두 true.</div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span class="filename">12_hof.js</span>
+        </div>
+        <pre><span class="const-kw">const</span> <span class="var">nums</span> = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>];
+<span class="const-kw">const</span> <span class="var">users</span> = [
+  { name: <span class="str">"윌리엄"</span>, age: <span class="num">28</span>, score: <span class="num">92</span> },
+  { name: <span class="str">"김자바"</span>,  age: <span class="num">17</span>, score: <span class="num">45</span> },
+  { name: <span class="str">"이스크"</span>,  age: <span class="num">22</span>, score: <span class="num">78</span> },
+  { name: <span class="str">"박노드"</span>,  age: <span class="num">15</span>, score: <span class="num">60</span> },
+];
+
+<span class="cmt">// map — 모든 점수를 1.1배로 올린 새 배열</span>
+<span class="const-kw">const</span> <span class="var">boosted</span> = <span class="var">users</span>.<span class="fn">map</span>(<span class="var">u</span> =&gt; ({ ...<span class="var">u</span>, score: <span class="var">u</span>.score * <span class="num">1.1</span> }));
+
+<span class="cmt">// filter — 성인(18세 이상)만 추출</span>
+<span class="const-kw">const</span> <span class="var">adults</span> = <span class="var">users</span>.<span class="fn">filter</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.age &gt;= <span class="num">18</span>);
+<span class="cmt">// [{ name: "윌리엄" ... }, { name: "이스크" ... }]</span>
+
+<span class="cmt">// reduce — 평균 점수 계산</span>
+<span class="const-kw">const</span> <span class="var">avg</span> = <span class="var">users</span>.<span class="fn">reduce</span>((<span class="var">acc</span>, <span class="var">u</span>) =&gt; <span class="var">acc</span> + <span class="var">u</span>.score, <span class="num">0</span>) / <span class="var">users</span>.length;
+<span class="cmt">// acc: 누적값(초기값 0), u: 현재 요소</span>
+
+<span class="cmt">// find — 조건 맞는 첫 요소</span>
+<span class="const-kw">const</span> <span class="var">top</span> = <span class="var">users</span>.<span class="fn">find</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.score &gt;= <span class="num">90</span>); <span class="cmt">// { name: "윌리엄" ... }</span>
+
+<span class="cmt">// sort — 점수 내림차순 정렬 (원본 변경됨!)</span>
+<span class="const-kw">const</span> <span class="var">sorted</span> = [...<span class="var">users</span>].<span class="fn">sort</span>((<span class="var">a</span>, <span class="var">b</span>) =&gt; <span class="var">b</span>.score - <span class="var">a</span>.score);
+<span class="cmt">// (b-a: 내림차순, a-b: 오름차순)</span>
+
+<span class="cmt">// some / every</span>
+<span class="const-kw">const</span> <span class="var">hasMajor</span>  = <span class="var">users</span>.<span class="fn">some</span>(<span class="var">u</span>  =&gt; <span class="var">u</span>.age &gt;= <span class="num">18</span>);  <span class="cmt">// true (한 명 이상 성인)</span>
+<span class="const-kw">const</span> <span class="var">allPass</span>   = <span class="var">users</span>.<span class="fn">every</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.score &gt;= <span class="num">40</span>); <span class="cmt">// true (모두 40점 이상)</span>
+
+<span class="cmt">// 체이닝 — 성인 중 합격자(60점↑)의 이름 목록</span>
+<span class="const-kw">const</span> <span class="var">result</span> = <span class="var">users</span>
+  .<span class="fn">filter</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.age &gt;= <span class="num">18</span>)
+  .<span class="fn">filter</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.score &gt;= <span class="num">60</span>)
+  .<span class="fn">map</span>(<span class="var">u</span> =&gt; <span class="var">u</span>.name);
+<span class="cmt">// ["윌리엄", "이스크"]</span></pre>
+      </div>
+
+      <div class="demo-box">
+        <h4>🎮 고차함수 체이닝 데모</h4>
+        <div class="demo-output" id="hof-output">버튼을 눌러 결과를 확인하세요!</div>
+        <div class="btn-row">
+          <button class="btn btn-primary"  id="btn-hof-map"    onclick="hofDemo('map')">map — 점수 1.1배</button>
+          <button class="btn btn-green"    id="btn-hof-filter" onclick="hofDemo('filter')">filter — 성인만</button>
+          <button class="btn btn-orange"   id="btn-hof-reduce" onclick="hofDemo('reduce')">reduce — 평균</button>
+          <button class="btn btn-purple"   id="btn-hof-chain"  onclick="hofDemo('chain')">체이닝</button>
+        </div>
+      </div>
+
+      <div class="callout callout-purple">
+        <div class="callout-icon">✨</div>
+        <div><strong>map/filter/reduce는 원본 배열을 변경하지 않는다!</strong> (불변성) sort는 원본을 변경하므로 <code>[...arr].sort()</code>처럼 복사 후 사용하는 것이 안전하다.</div>
+      </div>
+    </section>
+
+    <!-- 13 DOM -->
+    <section id="dom" class="section">
+      <div class="section-header">
+        <div class="section-num">13</div>
+        <div class="section-title-group">
+          <h2>🌐 DOM 조작 (Document Object Model)</h2>
+          <p>HTML 문서를 JavaScript로 읽고 수정하는 방법. 브라우저가 HTML을 트리 구조의 객체로 변환한 것이 DOM이다.</p>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="dom-tree">
+        <div class="dom-node"><span class="dom-tag">&lt;html&gt;</span></div>
+        <div class="dom-node" style="padding-left:20px"><span class="dom-tag">&lt;body&gt;</span></div>
+        <div class="dom-node" style="padding-left:40px"><span class="dom-tag">&lt;div</span> <span class="dom-attr">id="app"</span><span class="dom-tag">&gt;</span></div>
+        <div class="dom-node" style="padding-left:60px"><span class="dom-tag">&lt;h1</span> <span class="dom-attr">class="title"</span><span class="dom-tag">&gt;</span><span class="dom-text">"Hello"</span><span class="dom-tag">&lt;/h1&gt;</span></div>
+        <div class="dom-node" style="padding-left:60px"><span class="dom-tag">&lt;p&gt;</span><span class="dom-text">"설명글"</span><span class="dom-tag">&lt;/p&gt;</span></div>
+        <div class="dom-node" style="padding-left:40px"><span class="dom-tag">&lt;/div&gt;</span></div>
+        <div class="dom-node" style="padding-left:20px"><span class="dom-tag">&lt;/body&gt;</span></div>
+        <div class="dom-node"><span class="dom-tag">&lt;/html&gt;</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>목적</th><th>메서드</th><th>설명</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>요소 선택 (하나)</td><td><code>document.querySelector('#id')</code></td><td>CSS 선택자로 첫 번째 요소 반환</td></tr>
+            <tr><td>요소 선택 (여러개)</td><td><code>document.querySelectorAll('.cls')</code></td><td>NodeList (배열처럼 사용 가능)</td></tr>
+            <tr><td>텍스트 변경</td><td><code>el.textContent = '새 텍스트'</code></td><td>HTML 태그는 그대로, 텍스트만 변경</td></tr>
+            <tr><td>HTML 변경</td><td><code>el.innerHTML = '&lt;b&gt;굵게&lt;/b&gt;'</code></td><td>HTML 파싱해서 삽입 (XSS 주의!)</td></tr>
+            <tr><td>스타일 변경</td><td><code>el.style.color = 'red'</code></td><td>인라인 CSS 직접 변경</td></tr>
+            <tr><td>클래스 추가/제거</td><td><code>el.classList.add('active')</code></td><td><code>remove</code>, <code>toggle</code>, <code>contains</code> 도 있음</td></tr>
+            <tr><td>속성 읽기/쓰기</td><td><code>el.getAttribute('href')</code></td><td><code>setAttribute('href', 'url')</code></td></tr>
+            <tr><td>요소 생성</td><td><code>document.createElement('div')</code></td><td>새 HTML 요소 객체 생성</td></tr>
+            <tr><td>요소 추가</td><td><code>parent.appendChild(newEl)</code></td><td>자식으로 맨 뒤에 삽입</td></tr>
+            <tr><td>요소 제거</td><td><code>el.remove()</code></td><td>DOM에서 해당 요소 삭제</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span class="filename">13_dom.js</span>
+        </div>
+        <pre><span class="cmt">// 요소 선택</span>
+<span class="const-kw">const</span> <span class="var">app</span>   = document.<span class="fn">querySelector</span>(<span class="str">'#app'</span>);      <span class="cmt">// id로 선택</span>
+<span class="const-kw">const</span> <span class="var">btns</span>  = document.<span class="fn">querySelectorAll</span>(<span class="str">'.btn'</span>);    <span class="cmt">// 클래스로 선택 (NodeList)</span>
+<span class="const-kw">const</span> <span class="var">title</span> = document.<span class="fn">querySelector</span>(<span class="str">'h1.title'</span>);  <span class="cmt">// 복합 선택자</span>
+
+<span class="cmt">// 내용 변경</span>
+<span class="var">title</span>.textContent = <span class="str">"바뀐 제목!"</span>;              <span class="cmt">// 텍스트만</span>
+<span class="var">app</span>.innerHTML   = <span class="str">'&lt;p&gt;&lt;strong&gt;새 내용&lt;/strong&gt;&lt;/p&gt;'</span>; <span class="cmt">// HTML 파싱</span>
+
+<span class="cmt">// 스타일 / 클래스</span>
+<span class="var">title</span>.style.color       = <span class="str">"#58a6ff"</span>;   <span class="cmt">// 인라인 스타일</span>
+<span class="var">title</span>.classList.<span class="fn">add</span>(<span class="str">"active"</span>);         <span class="cmt">// 클래스 추가</span>
+<span class="var">title</span>.classList.<span class="fn">toggle</span>(<span class="str">"hidden"</span>);      <span class="cmt">// 있으면 제거, 없으면 추가</span>
+
+<span class="cmt">// 요소 동적 생성 & 추가</span>
+<span class="const-kw">const</span> <span class="var">li</span> = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+<span class="var">li</span>.textContent = <span class="str">"새 아이템"</span>;
+<span class="var">li</span>.<span class="fn">setAttribute</span>(<span class="str">"data-id"</span>, <span class="str">"42"</span>);
+document.<span class="fn">querySelector</span>(<span class="str">"ul"</span>).<span class="fn">appendChild</span>(<span class="var">li</span>);
+
+<span class="cmt">// 요소 삭제</span>
+document.<span class="fn">querySelector</span>(<span class="str">".old-item"</span>).<span class="fn">remove</span>();
+
+<span class="cmt">// NodeList 순회</span>
+<span class="var">btns</span>.<span class="fn">forEach</span>(<span class="var">btn</span> =&gt; {
+  <span class="var">btn</span>.style.opacity = <span class="str">"0.5"</span>;
+});</pre>
+      </div>
+
+      <div class="demo-box">
+        <h4>🎮 DOM 조작 데모</h4>
+        <div id="dom-demo-area" style="padding:16px;background:var(--bg-code);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;min-height:60px;font-size:14px;color:var(--text-primary)">
+          여기가 바뀝니다!
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary"   id="btn-dom-text"  onclick="domDemo('text')">텍스트 변경</button>
+          <button class="btn btn-green"     id="btn-dom-html"  onclick="domDemo('html')">HTML 삽입</button>
+          <button class="btn btn-orange"    id="btn-dom-style" onclick="domDemo('style')">스타일 변경</button>
+          <button class="btn btn-purple"    id="btn-dom-add"   onclick="domDemo('add')">요소 추가</button>
+          <button class="btn btn-secondary" id="btn-dom-reset" onclick="domDemo('reset')">↺ 리셋</button>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div><code>innerHTML</code>에 사용자 입력을 그대로 넣으면 XSS(크로스 사이트 스크립팅) 공격에 취약하다. 사용자 입력은 항상 <code>textContent</code>를 사용하자.</div>
+      </div>
+    </section>
+
+    <!-- 14 EVENT -->
+    <section id="event" class="section">
+      <div class="section-header">
+        <div class="section-num">14</div>
+        <div class="section-title-group">
+          <h2>🖱️ 이벤트 (Event)</h2>
+          <p>사용자의 클릭, 키보드 입력, 마우스 이동 등을 감지하고 반응하는 방법. <code>addEventListener</code>가 핵심.</p>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">👆</div>
+          <h3>자주 쓰는 이벤트</h3>
+          <p><code style="color:var(--accent-orange)">click</code> / <code style="color:var(--accent-orange)">dblclick</code> — 클릭<br>
+             <code style="color:var(--accent-orange)">keydown</code> / <code style="color:var(--accent-orange)">keyup</code> — 키보드<br>
+             <code style="color:var(--accent-orange)">input</code> / <code style="color:var(--accent-orange)">change</code> — 입력 필드<br>
+             <code style="color:var(--accent-orange)">mouseover</code> / <code style="color:var(--accent-orange)">mouseout</code> — 마우스</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>event 객체</h3>
+          <p><code style="color:var(--accent-orange)">e.target</code> — 이벤트가 발생한 요소<br>
+             <code style="color:var(--accent-orange)">e.target.value</code> — input 값<br>
+             <code style="color:var(--accent-orange)">e.key</code> — 눌린 키 이름<br>
+             <code style="color:var(--accent-orange)">e.preventDefault()</code> — 기본 동작 막기</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📡</div>
+          <h3>이벤트 위임</h3>
+          <p>부모에 이벤트를 달고 <code style="color:var(--accent-orange)">e.target</code>으로 어떤 자식인지 구분. 동적으로 생성되는 요소에 효율적으로 이벤트를 붙이는 패턴.</p>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span class="filename">14_event.js</span>
+        </div>
+        <pre><span class="cmt">// 기본 이벤트 등록</span>
+<span class="const-kw">const</span> <span class="var">btn</span>   = document.<span class="fn">querySelector</span>(<span class="str">'#myBtn'</span>);
+<span class="const-kw">const</span> <span class="var">input</span> = document.<span class="fn">querySelector</span>(<span class="str">'#myInput'</span>);
+
+<span class="var">btn</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (<span class="var">e</span>) =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'클릭됨!'</span>, <span class="var">e</span>.target);  <span class="cmt">// e.target = 클릭된 요소</span>
+});
+
+<span class="cmt">// input 이벤트 — 값이 바뀔 때마다 실행</span>
+<span class="var">input</span>.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, (<span class="var">e</span>) =&gt; {
+  console.<span class="fn">log</span>(<span class="var">e</span>.target.value); <span class="cmt">// 현재 입력값</span>
+});
+
+<span class="cmt">// keydown — 엔터키 감지</span>
+<span class="var">input</span>.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, (<span class="var">e</span>) =&gt; {
+  <span class="kw">if</span> (<span class="var">e</span>.key === <span class="str">'Enter'</span>) {
+    console.<span class="fn">log</span>(<span class="str">'엔터 입력!'</span>, <span class="var">e</span>.target.value);
+  }
+});
+
+<span class="cmt">// 이벤트 위임 — ul에만 달아서 li 클릭 감지</span>
+<span class="const-kw">const</span> <span class="var">list</span> = document.<span class="fn">querySelector</span>(<span class="str">'ul'</span>);
+<span class="var">list</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (<span class="var">e</span>) =&gt; {
+  <span class="kw">if</span> (<span class="var">e</span>.target.tagName === <span class="str">'LI'</span>) {       <span class="cmt">// li 클릭인지 확인</span>
+    <span class="var">e</span>.target.classList.<span class="fn">toggle</span>(<span class="str">'done'</span>); <span class="cmt">// done 클래스 토글</span>
+  }
+});
+
+<span class="cmt">// 이벤트 한 번만 실행 (once)</span>
+<span class="var">btn</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'딱 한 번만 실행!'</span>);
+}, { once: <span class="kw">true</span> });
+
+<span class="cmt">// form submit 기본 동작(페이지 새로고침) 막기</span>
+document.<span class="fn">querySelector</span>(<span class="str">'form'</span>).<span class="fn">addEventListener</span>(<span class="str">'submit'</span>, (<span class="var">e</span>) =&gt; {
+  <span class="var">e</span>.<span class="fn">preventDefault</span>(); <span class="cmt">// 새로고침 막음</span>
+  console.<span class="fn">log</span>(<span class="str">'폼 제출 처리!'</span>);
+});</pre>
+      </div>
+
+      <div class="demo-box">
+        <h4>🎮 이벤트 실습 — 실시간 입력 감지</h4>
+        <input
+          type="text"
+          class="demo-input"
+          id="event-input"
+          placeholder="여기에 타이핑해보세요 (Enter 키도 감지)"
+          oninput="eventDemo(event, 'input')"
+          onkeydown="eventDemo(event, 'keydown')"
+        />
+        <div class="demo-output" id="event-output">⌨️ 입력을 기다리는 중...</div>
+        <div class="btn-row">
+          <button class="btn btn-primary"  id="btn-event-click" onclick="eventDemo(event, 'click')">👆 이 버튼을 클릭</button>
+          <button class="btn btn-secondary" id="btn-event-clear" onclick="document.getElementById('event-output').textContent='⌨️ 입력을 기다리는 중...';">↺ 초기화</button>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-icon">💡</div>
+        <div><strong>이벤트 위임(Event Delegation)</strong>은 성능 최적화의 핵심! 1000개 li마다 이벤트를 붙이는 대신, 부모 ul에 하나만 붙이면 메모리를 훨씬 절약할 수 있다.</div>
+      </div>
+    </section>
+
+    <!-- 15 ASYNC -->
+    <section id="async" class="section">
+      <div class="section-header">
+        <div class="section-num">15</div>
+        <div class="section-title-group">
+          <h2>⏳ 비동기 / Promise / async-await</h2>
+          <p>서버에 데이터를 요청하거나 타이머를 걸 때처럼, 결과가 나중에 오는 작업을 처리하는 방법.</p>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="async-timeline">
+        <div class="timeline-item">
+          <span class="timeline-label label-sync">동기(Sync)</span>
+          코드가 <strong>위에서 아래로 순서대로</strong> 실행됨. 한 줄이 끝나야 다음 줄 실행.
+        </div>
+        <div class="timeline-item async-op">
+          <span class="timeline-label label-async">비동기(Async)</span>
+          <strong>기다리지 않고</strong> 다음 코드를 먼저 실행. 결과가 오면 나중에 처리. (setTimeout, fetch, 파일 읽기 등)
+        </div>
+        <div class="timeline-item success">
+          <span class="timeline-label label-then">.then / await</span>
+          비동기 작업이 <strong>성공</strong>했을 때 실행할 코드. Promise가 resolve(이행) 상태가 됨.
+        </div>
+        <div class="timeline-item error">
+          <span class="timeline-label label-catch">.catch / try-catch</span>
+          비동기 작업이 <strong>실패</strong>했을 때 실행할 코드. Promise가 reject(거부) 상태가 됨.
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span class="filename">15_async.js</span>
+        </div>
+        <pre><span class="cmt">// 비동기의 핵심 — 순서 확인</span>
+console.<span class="fn">log</span>(<span class="str">"1️⃣ 시작"</span>);
+<span class="fn">setTimeout</span>(() =&gt; console.<span class="fn">log</span>(<span class="str">"3️⃣ 타이머 (1초 후)"</span>), <span class="num">1000</span>);
+console.<span class="fn">log</span>(<span class="str">"2️⃣ 끝"</span>);
+<span class="cmt">// 출력: 1️⃣ → 2️⃣ → (1초 후) 3️⃣</span>
+
+<span class="cmt">// ── Promise 기본 ──</span>
+<span class="const-kw">const</span> <span class="var">p</span> = <span class="kw">new</span> <span class="fn">Promise</span>((<span class="var">resolve</span>, <span class="var">reject</span>) =&gt; {
+  <span class="const-kw">const</span> <span class="var">ok</span> = Math.<span class="fn">random</span>() &gt; <span class="num">0.5</span>;
+  <span class="kw">if</span> (<span class="var">ok</span>) <span class="fn">resolve</span>(<span class="str">"✅ 성공!"</span>);   <span class="cmt">// 성공 시 resolve 호출</span>
+  <span class="kw">else</span>   <span class="fn">reject</span>(<span class="str">"❌ 실패!"</span>);    <span class="cmt">// 실패 시 reject 호출</span>
+});
+
+<span class="var">p</span>
+  .<span class="fn">then</span>(<span class="var">result</span> =&gt; console.<span class="fn">log</span>(<span class="var">result</span>))  <span class="cmt">// 성공 처리</span>
+  .<span class="fn">catch</span>(<span class="var">err</span>    =&gt; console.<span class="fn">log</span>(<span class="var">err</span>))     <span class="cmt">// 실패 처리</span>
+  .<span class="fn">finally</span>(() =&gt; console.<span class="fn">log</span>(<span class="str">"항상 실행"</span>)); <span class="cmt">// 성공/실패 상관없이</span>
+
+<span class="cmt">// ── async / await — Promise를 동기처럼 작성 ──</span>
+<span class="const-kw">const</span> <span class="fn">fetchUser</span> = (<span class="var">id</span>) =&gt;
+  <span class="kw">new</span> <span class="fn">Promise</span>(<span class="var">resolve</span> =&gt;
+    <span class="fn">setTimeout</span>(() =&gt; <span class="fn">resolve</span>({ id: <span class="var">id</span>, name: <span class="str">"윌리엄"</span> }), <span class="num">500</span>)
+  );
+
+<span class="kw">async function</span> <span class="fn">loadUser</span>() {
+  <span class="kw">try</span> {
+    console.<span class="fn">log</span>(<span class="str">"로딩 중..."</span>);
+    <span class="const-kw">const</span> <span class="var">user</span> = <span class="kw">await</span> <span class="fn">fetchUser</span>(<span class="num">1</span>); <span class="cmt">// Promise 결과를 기다림</span>
+    console.<span class="fn">log</span>(<span class="str">"유저:"</span>, <span class="var">user</span>);        <span class="cmt">// { id: 1, name: "윌리엄" }</span>
+  } <span class="kw">catch</span> (<span class="var">err</span>) {
+    console.<span class="fn">log</span>(<span class="str">"에러:"</span>, <span class="var">err</span>);
+  }
+}
+<span class="fn">loadUser</span>();
+
+<span class="cmt">// ── Promise.all — 여러 비동기를 동시에 ──</span>
+<span class="const-kw">const</span> [<span class="var">u1</span>, <span class="var">u2</span>, <span class="var">u3</span>] = <span class="kw">await</span> Promise.<span class="fn">all</span>([
+  <span class="fn">fetchUser</span>(<span class="num">1</span>),
+  <span class="fn">fetchUser</span>(<span class="num">2</span>),
+  <span class="fn">fetchUser</span>(<span class="num">3</span>),
+]); <span class="cmt">// 셋 다 완료될 때까지 기다림 (병렬 실행!)</span></pre>
+      </div>
+
+      <div class="demo-box">
+        <h4>🎮 비동기 타이머 데모</h4>
+        <div class="demo-output" id="async-output">버튼을 눌러 비동기 흐름을 확인하세요!</div>
+        <div class="btn-row">
+          <button class="btn btn-primary"  id="btn-async-start"   onclick="asyncDemo('start')">▶ 비동기 실행</button>
+          <button class="btn btn-green"    id="btn-async-promise" onclick="asyncDemo('promise')">Promise 체인</button>
+          <button class="btn btn-orange"   id="btn-async-await"   onclick="asyncDemo('await')">async/await</button>
+          <button class="btn btn-secondary" id="btn-async-clear"  onclick="document.getElementById('async-output').textContent='버튼을 눌러 비동기 흐름을 확인하세요!'">↺ 초기화</button>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-icon">💡</div>
+        <div><strong>async/await는 Promise의 문법적 설탕(Syntactic Sugar)!</strong> 내부적으로는 똑같은 Promise를 사용하지만, 코드를 훨씬 읽기 쉽게 작성할 수 있다. 실무에서는 대부분 async/await를 선호한다.</div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-icon">⚠️</div>
+        <div><code>await</code>는 <code>async</code> 함수 안에서만 사용 가능! 최신 JS에서는 모듈 최상위에서 <em>Top-Level await</em>가 가능하다.</div>
       </div>
     </section>
 
@@ -1487,49 +1757,175 @@ console.<span class="fn">log</span>(Object.<span class="fn">keys</span>(<span cl
 
 <!-- FOOTER -->
 <footer>
-  <div>📚 <span>2026-05-22</span> Self Practice — JavaScript 기초 개념 정리</div>
-  <div>총 <span>11개</span> 주제 · 260522_ex 파일 기반</div>
+  <div>📚 <span>2026-05-22</span> Self Practice — JavaScript 핵심 개념 완전 정리</div>
+  <div>총 <span>15개</span> 주제 · 반복문 → 비동기까지</div>
 </footer>
 
 <script>
-  // ── 클로저 카운터 데모 ──
+  // ══════════════════════════════════
+  //  클로저 카운터 데모 (섹션 09)
+  // ══════════════════════════════════
   function makeCounter() {
     let c = 0;
     return {
       increment: function () { return ++c; },
-      reset: function () { c = 0; return c; }
+      reset:     function () { c = 0; return c; }
     };
   }
-  const counter = makeCounter();
+  const closureCounter = makeCounter();
 
   function incrementCounter() {
-    const val = counter.increment();
-    document.getElementById('closure-output').textContent = `카운터: ${val}  (c 값이 ${val}로 증가됨 🔒)`;
+    const val = closureCounter.increment();
+    document.getElementById('closure-output').textContent =
+      `카운터: ${val}  (내부 변수 c = ${val} 이 계속 기억됨 🔒)`;
   }
-
   function resetCounter() {
-    counter.reset();
+    closureCounter.reset();
     document.getElementById('closure-output').textContent = '카운터: 0  (리셋됨 ↺)';
   }
 
-  // ── 사이드바 활성 표시 ──
+  // ══════════════════════════════════
+  //  고차함수 데모 (섹션 12)
+  // ══════════════════════════════════
+  const hofUsers = [
+    { name: "윌리엄", age: 28, score: 92 },
+    { name: "김자바",  age: 17, score: 45 },
+    { name: "이스크",  age: 22, score: 78 },
+    { name: "박노드",  age: 15, score: 60 },
+  ];
+
+  function hofDemo(type) {
+    const el = document.getElementById('hof-output');
+    let result;
+    if (type === 'map') {
+      result = hofUsers.map(u => ({ ...u, score: Math.round(u.score * 1.1) }));
+      el.textContent = 'map (점수 1.1배):\n' + result.map(u => `  ${u.name}: ${u.score}점`).join('\n');
+    } else if (type === 'filter') {
+      result = hofUsers.filter(u => u.age >= 18);
+      el.textContent = 'filter (성인 18세↑):\n' + result.map(u => `  ${u.name} (${u.age}세)`).join('\n');
+    } else if (type === 'reduce') {
+      const total = hofUsers.reduce((acc, u) => acc + u.score, 0);
+      el.textContent = `reduce (평균 점수):\n  총합: ${total}점\n  평균: ${(total / hofUsers.length).toFixed(1)}점`;
+    } else if (type === 'chain') {
+      result = hofUsers
+        .filter(u => u.age >= 18)
+        .filter(u => u.score >= 60)
+        .map(u => u.name);
+      el.textContent = `체이닝 (성인 + 60점↑ → 이름만):\n  [${result.join(', ')}]`;
+    }
+  }
+
+  // ══════════════════════════════════
+  //  DOM 조작 데모 (섹션 13)
+  // ══════════════════════════════════
+  let domItemCount = 0;
+  function domDemo(type) {
+    const area = document.getElementById('dom-demo-area');
+    if (type === 'text') {
+      area.textContent = '✏️ textContent로 텍스트를 바꿨습니다! (HTML 태그는 그대로)';
+    } else if (type === 'html') {
+      area.innerHTML = '<span style="color:#58a6ff;font-weight:700">🌐 innerHTML</span>로 <b style="color:#f0883e">HTML</b>을 직접 삽입! &lt;b&gt;태그가 파싱됩니다.&lt;/b&gt;';
+    } else if (type === 'style') {
+      const colors = ['#58a6ff', '#bc8cff', '#3fb950', '#f0883e', '#f778ba'];
+      area.style.color = colors[Math.floor(Math.random() * colors.length)];
+      area.style.fontSize = (14 + Math.floor(Math.random() * 8)) + 'px';
+      area.textContent = '🎨 style.color와 style.fontSize를 랜덤으로 바꿨습니다!';
+    } else if (type === 'add') {
+      domItemCount++;
+      const el = document.createElement('div');
+      el.textContent = `➕ createElement로 동적 생성된 요소 #${domItemCount}`;
+      el.style.cssText = 'margin-top:6px;padding:4px 8px;background:rgba(63,185,80,0.15);border-radius:4px;border:1px solid rgba(63,185,80,0.3);font-size:13px;color:#3fb950';
+      area.appendChild(el);
+    } else if (type === 'reset') {
+      domItemCount = 0;
+      area.textContent = '여기가 바뀝니다!';
+      area.style.color = '';
+      area.style.fontSize = '';
+    }
+  }
+
+  // ══════════════════════════════════
+  //  이벤트 데모 (섹션 14)
+  // ══════════════════════════════════
+  let eventClickCount = 0;
+  function eventDemo(e, type) {
+    const el = document.getElementById('event-output');
+    if (type === 'input') {
+      el.textContent = `📝 input 이벤트: e.target.value = "${e.target.value}" (${e.target.value.length}자)`;
+    } else if (type === 'keydown') {
+      if (e.key === 'Enter') {
+        el.textContent = `⏎ keydown: Enter 키 감지! 입력값 = "${e.target.value}"`;
+      }
+    } else if (type === 'click') {
+      eventClickCount++;
+      el.textContent = `👆 click 이벤트: e.target.id = "btn-event-click" | 클릭 ${eventClickCount}회`;
+    }
+  }
+
+  // ══════════════════════════════════
+  //  비동기 데모 (섹션 15)
+  // ══════════════════════════════════
+  function fakeRequest(ms, shouldFail = false) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (shouldFail) reject(new Error('서버 오류!'));
+        else resolve({ data: '서버에서 온 데이터', time: ms + 'ms' });
+      }, ms);
+    });
+  }
+
+  function asyncDemo(type) {
+    const el = document.getElementById('async-output');
+    el.textContent = '⏳ 실행 시작...';
+
+    if (type === 'start') {
+      el.textContent = '1️⃣ 시작 (동기)\n';
+      setTimeout(() => {
+        el.textContent += '\n3️⃣ setTimeout 콜백 (500ms 후, 비동기)';
+      }, 500);
+      el.textContent += '\n2️⃣ setTimeout 등록 후 즉시 실행 (동기)\n→ 비동기는 나중에 실행됩니다!';
+
+    } else if (type === 'promise') {
+      el.textContent = '⏳ Promise 요청 중...';
+      fakeRequest(800)
+        .then(res => {
+          el.textContent = '✅ .then 성공!\n결과: ' + JSON.stringify(res);
+        })
+        .catch(err => {
+          el.textContent = '❌ .catch 에러: ' + err.message;
+        })
+        .finally(() => {
+          el.textContent += '\n🔚 .finally 항상 실행됨';
+        });
+
+    } else if (type === 'await') {
+      el.textContent = '⏳ async/await 요청 중...';
+      (async () => {
+        try {
+          const res = await fakeRequest(600);
+          el.textContent = '✅ await 성공!\n결과: ' + JSON.stringify(res, null, 2);
+        } catch (err) {
+          el.textContent = '❌ try-catch 에러: ' + err.message;
+        }
+      })();
+    }
+  }
+
+  // ══════════════════════════════════
+  //  사이드바 스크롤 활성 표시
+  // ══════════════════════════════════
   const sections = document.querySelectorAll('section[id]');
   const navItems = document.querySelectorAll('.nav-item[id]');
 
   function updateNav() {
     let current = '';
     sections.forEach(section => {
-      const sectionTop = section.getBoundingClientRect().top;
-      if (sectionTop < 120) {
-        current = section.getAttribute('id');
-      }
+      const top = section.getBoundingClientRect().top;
+      if (top < 120) current = section.getAttribute('id');
     });
-
     navItems.forEach(item => {
       item.classList.remove('active');
-      if (item.id === 'nav-' + current) {
-        item.classList.add('active');
-      }
+      if (item.id === 'nav-' + current) item.classList.add('active');
     });
   }
 
